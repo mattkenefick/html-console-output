@@ -67,6 +67,12 @@
     position: relative;
 }
 
+.console-error {
+    background-color: #ffdfd9;
+    border-bottom: 1px solid #fff2f0;
+    color: #a3230b;
+}
+
 .console-line time {
     background: #34a1eb;
     color: #fff;

@@ -21,6 +21,7 @@ const output: HTMLDivElement = document.createElement('div');
     wrapper.appendChild(output);
 
 const oldLog: Function = window.console.log;
+const oldError: Function = window.console.error;
 
 closeButton.onclick = function(e) {
     e.preventDefault();
@@ -40,6 +41,24 @@ window.console.log = function (...items: any[]) {
 
     const outputLine: HTMLDivElement = document.createElement('div');
         outputLine.classList.add('console-line');
+        outputLine.innerHTML = '<time>' + new Date().toLocaleTimeString() + '</time>';
+
+        output.appendChild(outputLine);
+
+    for (let item of items) {
+        outputLine.appendChild(createItem(item, true, false));
+    }
+}
+
+window.console.error = function (...items: any[]) {
+    var err = new Error();
+    items.push(err.stack);
+
+    oldError.apply(this, arguments);
+
+    const outputLine: HTMLDivElement = document.createElement('div');
+        outputLine.classList.add('console-line');
+        outputLine.classList.add('console-error');
         outputLine.innerHTML = '<time>' + new Date().toLocaleTimeString() + '</time>';
 
         output.appendChild(outputLine);
