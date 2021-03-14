@@ -11,6 +11,7 @@
     position: absolute;
     transition: max-height 0.25s ease-in-out,
     max-width 0.25s ease-in-out;
+    width: calc(100vw - 1rem);
 }
 
 .console-block-wrapper.state-collapsed {
