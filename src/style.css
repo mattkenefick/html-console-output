@@ -1,13 +1,81 @@
+
+.console-block-wrapper {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #0000001a;
+    border-radius: 6px;
+    height: calc(100vh - 1rem);
+    margin: 0.5rem;
+    max-height: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    position: absolute;
+    transition: max-height 0.25s ease-in-out,
+    max-width 0.25s ease-in-out;
+}
+
+.console-block-wrapper.state-collapsed {
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='511pt' version='1.1' viewBox='-34 1 511 511.99899' width='511pt'%3E%3Cpath d='M 222.152344 0 L 0.5 128 L 0.5 383.996094 L 222.152344 512 L 443.808594 383.996094 L 443.808594 128 Z M 136.5625 296.351562 L 115.335938 317.582031 L 53.757812 256 L 115.335938 194.421875 L 136.5625 215.648438 L 96.210938 256 Z M 200.25 333.375 L 173.398438 319.949219 L 244.058594 178.625 L 270.910156 192.050781 Z M 328.972656 317.578125 L 307.742188 296.351562 L 348.097656 256 L 307.742188 215.648438 L 328.972656 194.417969 L 390.550781 256 Z M 328.972656 317.578125 ' style=' stroke:none;fill-rule:nonzero;fill:rgb(0%25,0%25,0%25);fill-opacity:1;' /%3E%3C/svg%3E") center center no-repeat;
+    background-size: 50%;
+    max-height: 50px;
+    max-width: 50px
+}
+
+.console-block-wrapper.state-collapsed .console-block {
+    opacity: 0;
+}
+
+.console-block-wrapper.state-collapsed .close-button {
+    display: none;
+}
+
+.console-block-wrapper .close-button {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    opacity: 0.5;
+    padding: 1rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
+}
+
+.console-block-wrapper .close-button:hover {
+    opacity: 1;
+}
+
 .console-block {
+    box-sizing: border-box;
     font-family: "SF Mono", "Monaco", "Andale Mono", "Lucida Console", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
     font-size: 12px;
     line-height: 1.4em;
+    padding: 1rem;
+    overflow: auto;
+    opacity: 1.0;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.console-block {
+    height: 100%;
 }
 
 .console-line {
     border-bottom: 1px solid #dddddd;
     padding-bottom: 7px;
-    padding-top: 7px;
+    padding-top: 21px;
+    position: relative;
+}
+
+.console-line time {
+    background: #34a1eb;
+    color: #fff;
+    font-size: 10px;
+    left: 0;
+    margin: 0 0.5rem 0rem 0;
+    padding: 0px 7px;
+    position: absolute;
+    top: 0;
+    text-transform: uppercase;
 }
 
 .console-item {
@@ -60,27 +128,27 @@
     overflow: hidden;
 }
 
-.console-block .toggle:checked+.label-toggle+.collapsible-content {
+.console-block .toggle:checked + .label-toggle + .collapsible-content {
     max-height: 4000px;
 }
 
-.console-block .toggle:checked+.label-toggle .label-text {
+.console-block .toggle:checked + .label-toggle .label-text {
     display: none;
 }
 
-.console-block .toggle+.label-toggle .label-text-short {
+.console-block .toggle + .label-toggle .label-text-short {
     display: none;
 }
 
-.console-block .toggle:checked+.label-toggle .label-text-short {
+.console-block .toggle:checked + .label-toggle .label-text-short {
     display: inline;
 }
 
-.console-block .toggle:checked+.label-toggle::before {
+.console-block .toggle:checked + .label-toggle::before {
     transform: rotate(90deg) translateX(-3px);
 }
 
-.console-block .toggle:checked+.label-toggle {
+.console-block .toggle:checked + .label-toggle {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }

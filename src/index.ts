@@ -1,3 +1,4 @@
+
 import './style.css';
 import { icon } from '@fortawesome/fontawesome-svg-core';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
@@ -5,23 +6,48 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
 const MAXITEMSINOBJECTPREVIEW = 3;
 const MAXITEMSINARRAYPREVIEW = 5;
 
+const wrapper: HTMLDivElement = document.createElement('div');
+    wrapper.innerHTML = '<button class="close-button"><svg width="15" height="15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 511.995 511.995" style="enable-background:new 0 0 511.995 511.995;" xml:space="preserve"> <path d="M437.126,74.939c-99.826-99.826-262.307-99.826-362.133,0C26.637,123.314,0,187.617,0,256.005 s26.637,132.691,74.993,181.047c49.923,49.923,115.495,74.874,181.066,74.874s131.144-24.951,181.066-74.874 C536.951,337.226,536.951,174.784,437.126,74.939z M409.08,409.006c-84.375,84.375-221.667,84.375-306.042,0 c-40.858-40.858-63.37-95.204-63.37-153.001s22.512-112.143,63.37-153.021c84.375-84.375,221.667-84.355,306.042,0 C493.435,187.359,493.435,324.651,409.08,409.006z"/><path d="M341.525,310.827l-56.151-56.071l56.151-56.071c7.735-7.735,7.735-20.29,0.02-28.046 c-7.755-7.775-20.31-7.755-28.065-0.02l-56.19,56.111l-56.19-56.111c-7.755-7.735-20.31-7.755-28.065,0.02 c-7.735,7.755-7.735,20.31,0.02,28.046l56.151,56.071l-56.151,56.071c-7.755,7.735-7.755,20.29-0.02,28.046 c3.868,3.887,8.965,5.811,14.043,5.811s10.155-1.944,14.023-5.792l56.19-56.111l56.19,56.111 c3.868,3.868,8.945,5.792,14.023,5.792c5.078,0,10.175-1.944,14.043-5.811C349.28,331.117,349.28,318.562,341.525,310.827z"/></svg></button>';
+    wrapper.classList.add('state-collapsed');
+    wrapper.classList.add('console-block-wrapper');
+
+const closeButton: HTMLButtonElement = document.createElement('button');
+    closeButton.classList.add('close-button');
+    closeButton.innerHTML = '<svg width="15" height="15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 511.995 511.995" style="enable-background:new 0 0 511.995 511.995;" xml:space="preserve"> <path d="M437.126,74.939c-99.826-99.826-262.307-99.826-362.133,0C26.637,123.314,0,187.617,0,256.005 s26.637,132.691,74.993,181.047c49.923,49.923,115.495,74.874,181.066,74.874s131.144-24.951,181.066-74.874 C536.951,337.226,536.951,174.784,437.126,74.939z M409.08,409.006c-84.375,84.375-221.667,84.375-306.042,0 c-40.858-40.858-63.37-95.204-63.37-153.001s22.512-112.143,63.37-153.021c84.375-84.375,221.667-84.355,306.042,0 C493.435,187.359,493.435,324.651,409.08,409.006z"/><path d="M341.525,310.827l-56.151-56.071l56.151-56.071c7.735-7.735,7.735-20.29,0.02-28.046 c-7.755-7.775-20.31-7.755-28.065-0.02l-56.19,56.111l-56.19-56.111c-7.755-7.735-20.31-7.755-28.065,0.02 c-7.735,7.755-7.735,20.31,0.02,28.046l56.151,56.071l-56.151,56.071c-7.755,7.735-7.755,20.29-0.02,28.046 c3.868,3.887,8.965,5.811,14.043,5.811s10.155-1.944,14.023-5.792l56.19-56.111l56.19,56.111 c3.868,3.868,8.945,5.792,14.023,5.792c5.078,0,10.175-1.944,14.043-5.811C349.28,331.117,349.28,318.562,341.525,310.827z"/></svg>';
+    wrapper.appendChild(closeButton);
+
 const output: HTMLDivElement = document.createElement('div');
-output.classList.add('console-block');
+    output.classList.add('console-block');
+    wrapper.appendChild(output);
 
 const oldLog: Function = window.console.log;
+
+closeButton.onclick = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    wrapper.classList.add('state-collapsed');
+}
+
+wrapper.onclick = function(e) {
+    if (wrapper.classList.contains('state-collapsed')) {
+        wrapper.classList.remove('state-collapsed');
+    }
+}
 
 window.console.log = function (...items: any[]) {
     oldLog.apply(this, arguments);
 
     const outputLine: HTMLDivElement = document.createElement('div');
-    outputLine.classList.add('console-line');
-    output.appendChild(outputLine);
+        outputLine.classList.add('console-line');
+        outputLine.innerHTML = '<time>' + new Date().toLocaleTimeString() + '</time>';
+
+        output.appendChild(outputLine);
 
     for (let item of items) {
         outputLine.appendChild(createItem(item, true, false));
     }
 }
-
 
 window.onerror = (message, source, lineno, colno, error): void => {
     const outputLine: HTMLDivElement = document.createElement('div');
@@ -34,7 +60,7 @@ window.onerror = (message, source, lineno, colno, error): void => {
     outputLine.appendChild(errorMessage);
  }
 
-ifDomReady(output);
+ifDomReady(wrapper);
 
 /* poll DOM in stead of using onload event, because JSFiddle will overwrite onload event handler */
 function ifDomReady(consoleBlock: HTMLDivElement): void {
@@ -60,6 +86,11 @@ function ifDomReady(consoleBlock: HTMLDivElement): void {
  */
 function createItem(o: any, baseLevel: boolean, inline: boolean): HTMLDivElement {
     let item: HTMLDivElement = document.createElement('div');
+
+    //
+    output.scrollTop = output.scrollHeight;
+
+    //
     item.classList.add('console-item');
 
     switch (typeof o) {
@@ -71,11 +102,13 @@ function createItem(o: any, baseLevel: boolean, inline: boolean): HTMLDivElement
                 item.innerHTML = `"${o}"`;
             }
             break;
+
         case 'number':
         case 'boolean':
             item.style.color = '#249d7f';
             item.innerHTML = o.toString();
             break;
+
         case 'object':
             if (o === null) {
                 item.style.color = '#777';
@@ -90,10 +123,12 @@ function createItem(o: any, baseLevel: boolean, inline: boolean): HTMLDivElement
                 }
             }
             break;
+
         case 'function':
             item.style.color = 'rgb(238, 151, 39)';
             item.innerHTML = 'function()';
             break;
+
         case 'undefined':
             item.style.color = '#777';
             item.innerHTML = 'undefined';
@@ -257,7 +292,8 @@ function getHiddenProperties(o: any): string[] {
         let index: number = enumOnly.indexOf(key);
         if (index == -1) {
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     });
